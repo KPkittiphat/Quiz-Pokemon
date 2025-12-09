@@ -1,0 +1,138 @@
+<div id="root">
+  <div class="screen-container">
+    <header>
+      <h1>My Pokédex</h1>
+    </header>
+
+    <main class="content-area">
+      <div class="card-grid">
+        <div *ngFor="let card of myPokedex" class="pokemon-card hover-card">
+          
+          <div class="remove-btn" (click)="removeFromPokedex(card)">×</div>
+
+          <div class="card-layout">
+            <div class="card-image">
+              <img
+                [src]="card.imageUrl"
+                alt="{{ card.name }}"
+                onerror="this.src='assets/botnoi.svg'"
+              />
+            </div>
+            <div class="card-details">
+              <h2>{{ card.name }}</h2>
+
+              <div class="stat-row">
+                <span class="label">HP</span>
+                <div class="bar-container">
+                  <div class="bar-fill" [style.width.%]="card.hpLevel"></div>
+                </div>
+              </div>
+
+              <div class="stat-row">
+                <span class="label">STR</span>
+                <div class="bar-container">
+                  <div
+                    class="bar-fill"
+                    [style.width.%]="card.strengthLevel"
+                  ></div>
+                </div>
+              </div>
+
+              <div class="stat-row">
+                <span class="label">WEAK</span>
+                <div class="bar-container">
+                  <div
+                    class="bar-fill"
+                    [style.width.%]="card.weaknessLevel"
+                  ></div>
+                </div>
+              </div>
+
+              <div class="happiness-container">
+                <ng-container
+                  *ngFor="let i of [].constructor(card.happinessLevel)"
+                >
+                  <img src="assets/cute.png" class="cute-icon" />
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="bottom-bar">
+      <div class="add-button-wrapper">
+        <button class="add-btn" (click)="openSearchModal()">+</button>
+      </div>
+    </footer>
+
+    <div class="modal-overlay" *ngIf="isModalOpen" (click)="closeSearchModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="Find pokemon"
+            [(ngModel)]="searchName"
+            (keyup)="searchPokemon()"
+          />
+          <img src="assets/search.png" class="search-icon" />
+        </div>
+
+        <div class="search-results">
+          <div
+            *ngFor="let card of searchPokemons"
+            class="pokemon-card hover-card"
+            (click)="addToPokedex(card)"
+          >
+            <div class="add-label">Add</div>
+            <div class="card-layout">
+              <div class="card-image">
+                <img
+                  [src]="card.imageUrl"
+                  onerror="this.src='assets/botnoi.svg'"
+                />
+              </div>
+              <div class="card-details">
+                <h2>{{ card.name }}</h2>
+
+                <div class="stat-row">
+                  <span class="label">HP</span>
+                  <div class="bar-container">
+                    <div class="bar-fill" [style.width.%]="card.hpLevel"></div>
+                  </div>
+                </div>
+                <div class="stat-row">
+                  <span class="label">STR</span>
+                  <div class="bar-container">
+                    <div
+                      class="bar-fill"
+                      [style.width.%]="card.strengthLevel"
+                    ></div>
+                  </div>
+                </div>
+                <div class="stat-row">
+                  <span class="label">WEAK</span>
+                  <div class="bar-container">
+                    <div
+                      class="bar-fill"
+                      [style.width.%]="card.weaknessLevel"
+                    ></div>
+                  </div>
+                </div>
+
+                <div class="happiness-container">
+                  <ng-container
+                    *ngFor="let i of [].constructor(card.happinessLevel)"
+                  >
+                    <img src="assets/cute.png" class="cute-icon" />
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
