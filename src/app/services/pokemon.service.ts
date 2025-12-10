@@ -54,21 +54,36 @@ export class PokemonService {
 
   private calculateHp(hp: string): number {
     const val = Number(hp);
-    if (isNaN(val)) return 0;
-    if (val > 100) return 100;
-    return val;
+
+    if (isNaN(val) || val < 0) {
+      return 0;
+    }
+
+    return val > 100 ? 100 : val;
   }
 
   private calculateStrength(attacks: any[]): number {
     if (!attacks) return 0;
-    const val = attacks.length * 50;
-    return val > 100 ? 100 : val;
+    const length = attacks.length;
+
+    if (length === 1) {
+      return 50;
+    } else if (length >= 2) {
+      return 100;
+    } else {
+      return 0;
+    }
   }
 
   private calculateWeakness(weaknesses: any[]): number {
     if (!weaknesses) return 0;
-    const val = weaknesses.length * 100;
-    return val > 100 ? 100 : val;
+    const length = weaknesses.length;
+
+    if (length >= 1) {
+      return 100;
+    } else {
+      return 0;
+    }
   }
 
   private calculateDamage(attacks: any[]): number {
